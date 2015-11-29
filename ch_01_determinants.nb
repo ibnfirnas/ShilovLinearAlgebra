@@ -1,0 +1,25 @@
+#! /Applications/Mathematica.app/Contents/MacOS/MathematicaScript -script
+
+On[Assert]
+
+(******************************************************************************
+ *** Chapter 01: Determinants
+ *****************************************************************************)
+
+(* === 1.4: Properties of determinants *)
+
+(* --- 1.4.4: The linear property of determinants. *)
+(* D0 = l * D1 + m * D2 *)
+
+Begin["LinearPropertyOfDeterminants`"]
+    l = RandomInteger[{1, 10}]
+    m = RandomInteger[{1, 10}]
+    a = RandomInteger[{0, 10}, {3, 3}]
+    b = a
+    c = a
+    b[[All, 2]] = RandomSample[Range[1 , 10], UpTo[3]]
+    c[[All, 2]] = RandomSample[Range[10, 20], UpTo[3]]
+    a[[All, 2]] = l * b[[All, 2]] + m * c[[All, 2]]
+    Print [Det[a], " = ", l * Det[b] + m * Det[c]]
+    Assert[Det[a]    ==   l * Det[b] + m * Det[c]]
+End[]
