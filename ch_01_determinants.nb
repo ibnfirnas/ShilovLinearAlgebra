@@ -8,8 +8,18 @@ On[Assert]
 
 (* === 1.4: Properties of determinants *)
 
-(* --- 1.4.4: The linear property of determinants. *)
-(* D0 = l * D1 + m * D2 *)
+(* --- 1.4.4: The linear property of determinants.
+
+    If all the elements of the jth column of a determinant D are
+    "linear combinations" of two columns of numbers, i.e., if
+
+      a[i, j] = λb[i] + μc[i]  (i = 1, 2, ... , n)
+
+    where λ and μ are fixed numbers, then D is equal to a linear combination of
+    two determinants
+
+      D0 = λD1 + μD2
+*)
 
 Begin["LinearPropertyOfDeterminants`"]
     l = RandomInteger[{0, 10}]
