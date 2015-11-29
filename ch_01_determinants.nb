@@ -12,8 +12,8 @@ On[Assert]
 (* D0 = l * D1 + m * D2 *)
 
 Begin["LinearPropertyOfDeterminants`"]
-    l = RandomInteger[{1, 10}]
-    m = RandomInteger[{1, 10}]
+    l = RandomInteger[{0, 10}]
+    m = RandomInteger[{0, 10}]
     a = RandomInteger[{0, 10}, {3, 3}]
     b = a
     c = a
