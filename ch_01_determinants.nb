@@ -32,8 +32,8 @@ Begin["LinearPropertyOfDeterminants`"]
     a = RandomInteger[{minElement, maxElement}, {n, n}]
     b = a
     c = a
-    b[[All, i]] = Map[RandomInteger[{minElement, maxElement}] &, Range[1, n]]
-    c[[All, i]] = Map[RandomInteger[{minElement, maxElement}] &, Range[1, n]]
+    b[[All, i]] = Table[RandomInteger[{minElement, maxElement}], n]
+    c[[All, i]] = Table[RandomInteger[{minElement, maxElement}], n]
     a[[All, i]] = l * b[[All, i]] + m * c[[All, i]]
     Print [Det[a], " = ", l * Det[b] + m * Det[c]]
     Assert[Det[a]    ==   l * Det[b] + m * Det[c]]
