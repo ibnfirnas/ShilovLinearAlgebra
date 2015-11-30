@@ -22,14 +22,19 @@ On[Assert]
 *)
 
 Begin["LinearPropertyOfDeterminants`"]
-    l = RandomInteger[{0, 10}]
-    m = RandomInteger[{0, 10}]
-    a = RandomInteger[{0, 10}, {3, 3}]
+    {minConstant , maxConstant}  = {1, 10}
+    {minDimension, maxDimension} = {2, 10}
+    {minElement  , maxElement}   = {0, 10}
+    l = RandomInteger[{minConstant, maxConstant}]
+    m = RandomInteger[{minConstant, maxConstant}]
+    n = RandomInteger[{minDimension, maxDimension}]
+    i = RandomInteger[{1, n}]
+    a = RandomInteger[{minElement, maxElement}, {n, n}]
     b = a
     c = a
-    b[[All, 2]] = RandomSample[Range[1 , 10], UpTo[3]]
-    c[[All, 2]] = RandomSample[Range[10, 20], UpTo[3]]
-    a[[All, 2]] = l * b[[All, 2]] + m * c[[All, 2]]
+    b[[All, i]] = Map[RandomInteger[{minElement, maxElement}] &, Range[1, n]]
+    c[[All, i]] = Map[RandomInteger[{minElement, maxElement}] &, Range[1, n]]
+    a[[All, i]] = l * b[[All, i]] + m * c[[All, i]]
     Print [Det[a], " = ", l * Det[b] + m * Det[c]]
     Assert[Det[a]    ==   l * Det[b] + m * Det[c]]
 End[]
