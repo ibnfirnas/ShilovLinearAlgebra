@@ -1,0 +1,22 @@
+#! /Applications/Mathematica.app/Contents/MacOS/MathematicaScript -script
+
+(* 1.46. If a column of a determinant consists entirely of zeros, then the
+         determinant vanishes.
+
+    Proof: Since 0 is a common factor of the elements of one of the columns, we
+    can factor it out of the determinant, obtaining:
+
+        Dj(0) = Dj(0 * 1) = 0 * Dj(1) = 0
+*)
+
+{minDimension, maxDimension} = {2, 10}
+{minElement  , maxElement}   = {1, 10}
+n = RandomInteger[{minDimension, maxDimension}]
+i = RandomInteger[{1, n}]
+a = RandomInteger[{minElement, maxElement}, {n, n}]
+b = a
+b[[All, i]] = Table[0, n]
+Print["Det[a]: ", Det[a], ", Det[b]: ", Det[b], " = 0"]
+
+On[Assert]
+Assert[Det[b] == 0]
