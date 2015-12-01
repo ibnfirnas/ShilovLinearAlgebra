@@ -1,0 +1,24 @@
+#! /Applications/Mathematica.app/Contents/MacOS/MathematicaScript -script
+
+(* --- 1.47: Addition of an arbitrary multiple of one column to another column.
+
+The value of a determinant is not changed by adding the elements of one column
+multiplied by an arbitrary number to the corresponding elements of another
+column.
+
+*)
+
+{minConstant , maxConstant}  = {1, 10}
+{minDimension, maxDimension} = {2, 10}
+{minElement  , maxElement}   = {0, 10}
+l = RandomInteger[{minConstant, maxConstant}]
+n = RandomInteger[{minDimension, maxDimension}]
+j = RandomInteger[{1, n - 1}]
+k = RandomInteger[{j + 1, n}]
+a = RandomInteger[{minElement, maxElement}, {n, n}]
+b = a
+b[[All, j]] += b[[All, k]] * l
+Print[Det[a], " = ", Det[b]]
+
+On[Assert]
+Assert[Det[a] == Det[b]]
