@@ -1,0 +1,22 @@
+#! /Applications/Mathematica.app/Contents/MacOS/MathematicaScript -script
+
+(* 1.45. Any common factor of a column of a determinant can be factored out of
+         the determinant.
+
+Proof: If aij = λbi, then by (10) we have Dj(aij) = Dj(λbi) = λDj(bi).
+
+*)
+
+{minConstant , maxConstant}  = {1, 10}
+{minDimension, maxDimension} = {2, 10}
+{minElement  , maxElement}   = {0, 10}
+l = RandomInteger[{minConstant, maxConstant}]
+n = RandomInteger[{minDimension, maxDimension}]
+i = RandomInteger[{1, n}]
+a = RandomInteger[{minElement, maxElement}, {n, n}]
+b = a
+b[[All, i]] *= l
+Print["Det[a]: ", Det[a] ", Det[b]: ", Det[b], ", λ: ", l]
+
+On[Assert]
+Assert[Det[a] * l == Det[b]]
