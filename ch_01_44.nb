@@ -23,8 +23,8 @@ i = RandomInteger[{1, n}]
 a = RandomInteger[{minElement, maxElement}, {n, n}]
 b = a
 c = a
-b[[All, i]] = Table[RandomInteger[{minElement, maxElement}], n]
-c[[All, i]] = Table[RandomInteger[{minElement, maxElement}], n]
+b[[All, i]] = RandomInteger[{minElement, maxElement}, n]
+c[[All, i]] = RandomInteger[{minElement, maxElement}, n]
 a[[All, i]] = l * b[[All, i]] + m * c[[All, i]]
 Print[Det[a], " = ", l * Det[b] + m * Det[c]]
 
