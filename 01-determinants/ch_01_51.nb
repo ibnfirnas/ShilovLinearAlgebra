@@ -88,22 +88,22 @@ main[] := Module[
     m = RandomInteger[{minElt, maxElt}, {n, n}];
     iRow = RandomInteger[{1, n}];
     jCol = RandomInteger[{1, n}];
-    sumOfExpansionOfColumn = MapIndexed[(
+    sumOfExpansionOfColumn = Total[MapIndexed[(
         e = #1;
         {i} = #2;
         cofactor = cofactorOfIJOfDetOf[m, i, jCol];
         e * cofactor
         ) &,
         m[[All, jCol]]
-    ] // Total;
-    sumOfExpansionOfRow = MapIndexed[(
+    ]];
+    sumOfExpansionOfRow = Total[MapIndexed[(
         e = #1;
         {j} = #2;
         cofactor = cofactorOfIJOfDetOf[m, iRow, j];
         e * cofactor
         ) &,
         m[[iRow, All]]
-    ] // Total;
+    ]];
     Print["Det[m]                 = ", Det[m]];
     Print["sumOfExpansionOfColumn = ", sumOfExpansionOfColumn];
     Print["sumOfExpansionOfRow    = ", sumOfExpansionOfRow];
