@@ -81,7 +81,6 @@ main[] := Module[
     , sumOfExpansionOfColumn
     , sumOfExpansionOfRow
     },
-    On[Assert];
     {minDim, maxDim} = {3, 3};
     {minElt, maxElt} = {1, 10};
     n = RandomInteger[{minDim, maxDim}];
@@ -107,6 +106,7 @@ main[] := Module[
     Print["Det[m]                 = ", Det[m]];
     Print["sumOfExpansionOfColumn = ", sumOfExpansionOfColumn];
     Print["sumOfExpansionOfRow    = ", sumOfExpansionOfRow];
+    On[Assert];
     Assert[Det[m] == det[m]];
     Assert[Det[m] == sumOfExpansionOfColumn];
     Assert[Det[m] == sumOfExpansionOfRow];
