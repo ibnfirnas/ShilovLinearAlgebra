@@ -69,6 +69,16 @@ cofactorOfIJOfDetOf[m_List, iRow_Integer, jCol_Integer] := Module[
     Total[termsWithIJ] / m[[iRow, jCol]]
 ];
 
+sumOfExpansionOf[m_, {rowOrCol_, index_}] := Module[
+    {elements, cofactor},
+    {elements, cofactor} =
+        Switch[rowOrCol,
+            "row", {m[[index, All]], cofactorOfIJOfDetOf[m, index, #] &},
+            "col", {m[[All, index]], cofactorOfIJOfDetOf[m, #, index] &}
+        ];
+    Sum[elements[[i]] * cofactor[i], {i, Length[elements]}]
+];
+
 main[] := Module[
     { maxDim
     , minDim
@@ -78,7 +88,7 @@ main[] := Module[
     , m
     , iRow
     , jCol
-    , sumOfExpansionOfColumn
+    , sumOfExpansionOfCol
     , sumOfExpansionOfRow
     },
     {minDim, maxDim} = {3, 3};
@@ -87,28 +97,14 @@ main[] := Module[
     m = RandomInteger[{minElt, maxElt}, {n, n}];
     iRow = RandomInteger[{1, n}];
     jCol = RandomInteger[{1, n}];
-    sumOfExpansionOfColumn = Total[MapIndexed[(
-        e = #1;
-        {i} = #2;
-        cofactor = cofactorOfIJOfDetOf[m, i, jCol];
-        e * cofactor
-        ) &,
-        m[[All, jCol]]
-    ]];
-    sumOfExpansionOfRow = Total[MapIndexed[(
-        e = #1;
-        {j} = #2;
-        cofactor = cofactorOfIJOfDetOf[m, iRow, j];
-        e * cofactor
-        ) &,
-        m[[iRow, All]]
-    ]];
-    Print["Det[m]                 = ", Det[m]];
-    Print["sumOfExpansionOfColumn = ", sumOfExpansionOfColumn];
-    Print["sumOfExpansionOfRow    = ", sumOfExpansionOfRow];
+    sumOfExpansionOfCol = sumOfExpansionOf[m, {"col", jCol}];
+    sumOfExpansionOfRow = sumOfExpansionOf[m, {"row", iRow}];
+    Print["Det[m]              = ", Det[m]];
+    Print["sumOfExpansionOfCol = ", sumOfExpansionOfCol];
+    Print["sumOfExpansionOfRow = ", sumOfExpansionOfRow];
     On[Assert];
     Assert[Det[m] == det[m]];
-    Assert[Det[m] == sumOfExpansionOfColumn];
+    Assert[Det[m] == sumOfExpansionOfCol];
     Assert[Det[m] == sumOfExpansionOfRow];
 ];
 
