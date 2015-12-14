@@ -14,69 +14,7 @@ holds, so that the calculation of cofactors reduces to the calculation of the
 corresponding minors.
 *)
 
-(* val detTermsIndices : 'a list list -> ((int * int) list) list
-*)
-detTermsIndices[m_List] := Module[
-    {n, indices, rowIndices, colIndices},
-    {n, n} = Dimensions[m];
-    indices = Range[1, n];
-    rowIndices = Permutations[indices];
-    colIndices = Table[indices, n!];
-    MapThread[(
-        termRowIndices = #1;
-        termColIndices = #2;
-        MapThread[(
-            termEltRow = #1;
-            termEltCol = #2;
-            {termEltRow, termEltCol}
-            ) &,
-            {termRowIndices, termColIndices}
-        ]) &,
-        {rowIndices, colIndices}
-    ]
-];
-
-Inversions[list_List] := Block[
-    {$ContextPath},
-    Quiet[Needs["Combinatorica`"], {General::compat}];
-    Combinatorica`Inversions[list]
-];
-
-(* val detTermIndicesToTerms
-     : ((int * int) list) list
-    -> 'a list list
-    -> 'a list
-*)
-detTermIndicesToTerms[termIndices_List, m_List] := Module[
-    { termRowIndices
-    , termElements
-    , signCoeficient
-    , iRow
-    , jCol
-    , t
-    },
-    termRowIndices = termIndices[[All, 1]];
-    termElements = Map[({iRow, jCol} = #; m[[iRow, jCol]]) &, termIndices];
-    signCoeficient = Power[-1, Inversions[termRowIndices]];
-    signCoeficient * (Times @@ termElements)
-];
-
-detTerms[m_List] :=
-    Map[detTermIndicesToTerms[#, m] &, detTermsIndices[m]];
-
-det[m_List] :=
-    Total[detTerms[m]];
-
-cofactorOfIJOfDetOf[m_List, iRow_Integer, jCol_Integer] := Module[
-    { termIndices
-    , termIndicesWithIJ
-    , termsWithIJ
-    },
-    termIndices = detTermsIndices[m];
-    termIndicesWithIJ = Select[termIndices, MemberQ[#, {iRow, jCol}]&];
-    termsWithIJ = Map[detTermIndicesToTerms[#, m] &, termIndicesWithIJ];
-    Total[termsWithIJ] / m[[iRow, jCol]]
-];
+Needs["shilov`"];
 
 {minDim, maxDim} = {3, 3};
 {minElt, maxElt} = {1, 10};
@@ -84,20 +22,19 @@ n = RandomInteger[{minDim, maxDim}];
 m = RandomInteger[{minElt, maxElt}, {n, n}];
 i = RandomInteger[{1, n}];
 j = RandomInteger[{1, n}];
-
-cofactor = cofactorOfIJOfDetOf[m, i, j];
+cofactor = detCofactor[m, i, j];
+minor = detMinorIJ[m, i, j];
 signCoeficient = Power[-1, i + j];
-minors = Reverse[Map[Reverse, Minors[m]]];
-minor = minors[[i, j]];
 
 Print["             m: ", m];
 Print["             i: ", i];
 Print["             j: ", j];
+Print["        Det[m]: ", Det[m]];
 Print["      cofactor: ", cofactor];
 Print["signCoeficient: ", signCoeficient];
 Print["     Minors[m]: ", Minors[m]];
-Print["        minors: ", minors];
 Print["         minor: ", minor];
 Print[cofactor, " = ", signCoeficient * minor];
+
 On[Assert];
 Assert[cofactor == signCoeficient * minor];

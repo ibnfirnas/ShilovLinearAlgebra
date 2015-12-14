@@ -5,108 +5,23 @@ the determinant D with the corresponding cofactors is equal to the determinant
 D itself.
 *)
 
-(* val detTermsIndices : 'a list list -> ((int * int) list) list
-*)
-detTermsIndices[m_List] := Module[
-    {n, indices, rowIndices, colIndices},
-    {n, n} = Dimensions[m];
-    indices = Range[1, n];
-    rowIndices = Permutations[indices];
-    colIndices = Table[indices, n!];
-    MapThread[(
-        termRowIndices = #1;
-        termColIndices = #2;
-        MapThread[(
-            termEltRow = #1;
-            termEltCol = #2;
-            {termEltRow, termEltCol}
-            ) &,
-            {termRowIndices, termColIndices}
-        ]) &,
-        {rowIndices, colIndices}
-    ]
-];
+Needs["shilov`"];
 
-Inversions[list_List] := Block[
-    {$ContextPath},
-    Needs["Combinatorica`"];
-    Combinatorica`Inversions[list]
-];
+{minDim, maxDim} = {3, 3};
+{minElt, maxElt} = {1, 10};
+n = RandomInteger[{minDim, maxDim}];
+m = RandomInteger[{minElt, maxElt}, {n, n}];
+iRow = RandomInteger[{1, n}];
+jCol = RandomInteger[{1, n}];
+sumOfExpansionOfCol = detSumOfExpansion[m, {"col", jCol}];
+sumOfExpansionOfRow = detSumOfExpansion[m, {"row", iRow}];
 
-(* val detTermIndicesToTerms
-     : ((int * int) list) list
-    -> 'a list list
-    -> 'a list
-*)
-detTermIndicesToTerms[termIndices_List, m_List] := Module[
-    { termRowIndices
-    , termElements
-    , signCoeficient
-    , iRow
-    , jCol
-    , t
-    },
-    termRowIndices = termIndices[[All, 1]];
-    termElements = Map[({iRow, jCol} = #; m[[iRow, jCol]]) &, termIndices];
-    signCoeficient = Power[-1, Inversions[termRowIndices]];
-    signCoeficient * (Times @@ termElements)
-];
+Print["Det[m]              = ", Det[m]];
+Print["det[m]              = ", det[m]];
+Print["sumOfExpansionOfCol = ", sumOfExpansionOfCol];
+Print["sumOfExpansionOfRow = ", sumOfExpansionOfRow];
 
-detTerms[m_List] :=
-    Map[detTermIndicesToTerms[#, m] &, detTermsIndices[m]];
-
-det[m_List] :=
-    Total[detTerms[m]];
-
-cofactorOfIJOfDetOf[m_List, iRow_Integer, jCol_Integer] := Module[
-    { termIndices
-    , termIndicesWithIJ
-    , termsWithIJ
-    },
-    termIndices = detTermsIndices[m];
-    termIndicesWithIJ = Select[termIndices, MemberQ[#, {iRow, jCol}]&];
-    termsWithIJ = Map[detTermIndicesToTerms[#, m] &, termIndicesWithIJ];
-    Total[termsWithIJ] / m[[iRow, jCol]]
-];
-
-sumOfExpansionOf[m_, {rowOrCol_, index_}] := Module[
-    {elements, cofactor},
-    {elements, cofactor} =
-        Switch[rowOrCol,
-            "row", {m[[index, All]], cofactorOfIJOfDetOf[m, index, #] &},
-            "col", {m[[All, index]], cofactorOfIJOfDetOf[m, #, index] &}
-        ];
-    Sum[elements[[i]] * cofactor[i], {i, Length[elements]}]
-];
-
-main[] := Module[
-    { maxDim
-    , minDim
-    , maxElt
-    , minElt
-    , n
-    , m
-    , iRow
-    , jCol
-    , sumOfExpansionOfCol
-    , sumOfExpansionOfRow
-    },
-    {minDim, maxDim} = {3, 3};
-    {minElt, maxElt} = {1, 10};
-    n = RandomInteger[{minDim, maxDim}];
-    m = RandomInteger[{minElt, maxElt}, {n, n}];
-    iRow = RandomInteger[{1, n}];
-    jCol = RandomInteger[{1, n}];
-    sumOfExpansionOfCol = sumOfExpansionOf[m, {"col", jCol}];
-    sumOfExpansionOfRow = sumOfExpansionOf[m, {"row", iRow}];
-    Print["Det[m]              = ", Det[m]];
-    Print["det[m]              = ", det[m]];
-    Print["sumOfExpansionOfCol = ", sumOfExpansionOfCol];
-    Print["sumOfExpansionOfRow = ", sumOfExpansionOfRow];
-    On[Assert];
-    Assert[Det[m] == det[m]];
-    Assert[Det[m] == sumOfExpansionOfCol];
-    Assert[Det[m] == sumOfExpansionOfRow];
-];
-
-main[]
+On[Assert];
+Assert[Det[m] == det[m]];
+Assert[Det[m] == sumOfExpansionOfCol];
+Assert[Det[m] == sumOfExpansionOfRow];
