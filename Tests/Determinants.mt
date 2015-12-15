@@ -79,12 +79,12 @@ Test[
     If all the elements of the jth column of a determinant D are
     "linear combinations" of two columns of numbers, i.e., if
 
-      a[i, j] = λb[i] + μc[i]  (i = 1, 2, ... , n)
+      a[i, j] = lb[i] + mc[i] (i = 1, 2, ... , n)
 
-    where λ and μ are fixed numbers, then D is equal to a linear combination of
+    where l and m are fixed numbers, then D is equal to a linear combination of
     two determinants
 
-      D0 = λD1 + μD2
+      D0 = lD1 + mD2
 *)
     Module[
         {b, c, d, i},
@@ -105,7 +105,7 @@ Test[
 (* 1.45. Any common factor of a column of a determinant can be factored out of
          the determinant.
 
-Proof: If aij = λbi, then by (10) we have Dj(aij) = Dj(λbi) = λDj(bi).
+Proof: If a[i, j] = lb[i], then by (10) we have Dj(a[i, j]) = D[j](lb[i]) = lD[j](b[i]).
 
 *)
     Module[
@@ -126,7 +126,7 @@ Test[
     Proof: Since 0 is a common factor of the elements of one of the columns, we
     can factor it out of the determinant, obtaining:
 
-        Dj(0) = Dj(0 * 1) = 0 * Dj(1) = 0
+        D[j](0) = D[j](0 * 1) = 0 * D[j](1) = 0
 *)
     Module[
         {b, i},
@@ -194,14 +194,14 @@ column (or row) is equal to zero.
 
 Test[
 (* 1.53: If we delete a row and a column from a matrix of order n, then, of
-course, the remaining elements form a matrix of order n − 1. The determinant of
+course, the remaining elements form a matrix of order n-1. The determinant of
 this matrix is called a minor of the original nth-order matrix (and also a
 minor of its determinant D). If we delete the ith row and the jth column of D,
 then the minor so obtained is denoted by Mij or Mij(D).
 
 We now show that the relation (15):
 
-    Aij = (-1)^(i + j) Mij
+    A[i, j] = (-1)^(i + j) M[i, j]
 
 holds, so that the calculation of cofactors reduces to the calculation of the
 corresponding minors.
