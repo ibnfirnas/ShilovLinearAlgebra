@@ -48,7 +48,6 @@ detTermIndicesToTerms[termIndices_List, m_List] := Module[
     , signCoeficient
     , iRow
     , jCol
-    , t
     },
     termRowIndices = termIndices[[All, 1]];
     termElements = Map[({iRow, jCol} = #; m[[iRow, jCol]]) &, termIndices];
