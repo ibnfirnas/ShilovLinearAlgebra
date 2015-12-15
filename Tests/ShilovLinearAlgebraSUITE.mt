@@ -1,0 +1,4 @@
+TestSuite[
+    { "Determinants.mt"
+    }
+]

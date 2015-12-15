@@ -1,4 +1,4 @@
-BeginPackage["shilov`"]
+BeginPackage["ShilovLinearAlgebra`Determinants`"]
 
 det
 detCofactor
@@ -10,8 +10,7 @@ Begin["`Private`"]
 detMinorIJ[m_, i_, j_] :=
     Reverse[Map[Reverse, Minors[m]]][[i, j]]
 
-(* val detTermsIndices : 'a list list -> ((int * int) list) list
-*)
+(* val detTermsIndices : 'a list list -> ((int * int) list) list *)
 detTermsIndices[m_List] := Module[
     {n, indices, rowIndices, colIndices},
     {n, n} = Dimensions[m];
