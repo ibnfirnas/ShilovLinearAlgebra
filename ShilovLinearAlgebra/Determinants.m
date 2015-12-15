@@ -7,8 +7,14 @@ detSumOfExpansion
 
 Begin["`Private`"]
 
+(*
+If we delete a row and a column from a matrix of order n, then, of course, the
+remaining elements form a matrix of order n-1. The determinant of this matrix
+is called a minor of the original nth-order matrix (and also a minor of its
+determinant D).
+*)
 detMinorIJ[m_, i_, j_] :=
-    Reverse[Map[Reverse, Minors[m]]][[i, j]]
+    det[Drop[m, {i, i}, {j, j}]]
 
 (* val detTermsIndices : 'a list list -> ((int * int) list) list *)
 detTermsIndices[m_List] := Module[

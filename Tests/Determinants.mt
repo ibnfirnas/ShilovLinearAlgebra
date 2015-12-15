@@ -25,14 +25,27 @@ Protect[
     m
 ]
 
+
+(*---------------------------------------------------------------------------*)
+(* Sanity checks that our implementations agree with Mathematica's           *)
+(*---------------------------------------------------------------------------*)
+
 Test[
-(* Just a sanity check that our experiments are, at least in part, consistent
-   with Mathematica's implementations.
-*)
     det[a],
     Det[a],
-    TestID -> "det[a] == Det[a]"
+    TestID -> "det"
 ]
+
+Test[
+    detMinorIJ[a, i, j],
+    Reverse[Map[Reverse, Minors[a]]][[i, j]],
+    TestID -> "detMinorIJ"
+]
+
+
+(*---------------------------------------------------------------------------*)
+(* Tests for properties of determinants, in order presented in the book.     *)
+(*---------------------------------------------------------------------------*)
 
 Test[
 (* 1.41: The transposition operation.
