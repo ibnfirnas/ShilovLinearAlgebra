@@ -224,4 +224,25 @@ corresponding minors.
     TestID -> "ch_01_53"
 ]
 
+Test[
+(* 1.54: Expansion can now be done in terms of a minor, rather than cofactor,
+    like so:
+
+    column:
+    D = (-1)^(1+j) * a[1, j] * M[1, j] + ... + (-1)^(n+j) * a[n, j] * M[n, j]
+
+    row:
+*)
+    Module[
+        {i, j},
+        i = RandomInteger[{1, n}];
+        j = RandomInteger[{1, n}];
+        { detSumOfExpansionWithMinors[a, {"row", i}]
+        , detSumOfExpansionWithMinors[a, {"col", j}]
+        }
+    ],
+    {det[a], det[a]},
+    TestID -> "ch_01_54"
+]
+
 End[]

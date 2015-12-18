@@ -4,6 +4,7 @@ det
 detCofactor
 detMinorIJ
 detSumOfExpansion
+detSumOfExpansionWithMinors
 
 Begin["`Private`"]
 
@@ -89,6 +90,19 @@ detSumOfExpansion[m_, {rowOrCol_, indexA_, indexB_}] := Module[
             "col", {m[[All, indexA]], detCofactor[m, #, indexB] &}
         ];
     Sum[elements[[i]] * cofactor[i], {i, Length[elements]}]
+]
+
+detSumOfExpansionWithMinors[m_, {rowOrCol_, index_}] :=
+    detSumOfExpansionWithMinors[m, {rowOrCol, index, index}]
+
+detSumOfExpansionWithMinors[m_, {rowOrCol_, indexA_, indexB_}] := Module[
+    {elements, minor},
+    {elements, minor} =
+        Switch[rowOrCol,
+            "row", {m[[indexA, All]], detMinorIJ[m, indexB, #] &},
+            "col", {m[[All, indexA]], detMinorIJ[m, #, indexB] &}
+        ];
+    Sum[elements[[i]] * Power[-1, i + indexB] * minor[i], {i, Length[elements]}]
 ]
 
 End[]
