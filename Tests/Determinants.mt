@@ -179,7 +179,9 @@ D itself.
         {i, j},
         i = RandomInteger[{1, n}];
         j = RandomInteger[{1, n}];
-        {detSumOfExpansion[a, {"row", i}], detSumOfExpansion[a, {"col", j}]}
+        { detSumOfExpansionWithCofactors[a, {"row", i}]
+        , detSumOfExpansionWithCofactors[a, {"col", j}]
+        }
     ],
     {det[a], det[a]},
     TestID -> "ch_01_51"
@@ -197,8 +199,8 @@ column (or row) is equal to zero.
         iB = RandomChoice[DeleteCases[indexRange, iA]];
         jA = RandomChoice[indexRange];
         jB = RandomChoice[DeleteCases[indexRange, jA]];
-        { detSumOfExpansion[a, {"row", iA, iB}]
-        , detSumOfExpansion[a, {"col", jA, jB}]
+        { detSumOfExpansionWithCofactors[a, {"row", iA, iB}]
+        , detSumOfExpansionWithCofactors[a, {"col", jA, jB}]
         }
     ],
     {0, 0},

@@ -3,7 +3,7 @@ BeginPackage["ShilovLinearAlgebra`Determinants`"]
 det
 detCofactor
 detMinorIJ
-detSumOfExpansion
+detSumOfExpansionWithCofactors
 detSumOfExpansionWithMinors
 
 Begin["`Private`"]
@@ -79,10 +79,10 @@ detCofactor[m_List, iRow_Integer, jCol_Integer] := Module[
     Total[termsWithIJ] / m[[iRow, jCol]]
 ]
 
-detSumOfExpansion[m_, {rowOrCol_, index_}] :=
-    detSumOfExpansion[m, {rowOrCol, index, index}]
+detSumOfExpansionWithCofactors[m_, {rowOrCol_, index_}] :=
+    detSumOfExpansionWithCofactors[m, {rowOrCol, index, index}]
 
-detSumOfExpansion[m_, {rowOrCol_, indexA_, indexB_}] := Module[
+detSumOfExpansionWithCofactors[m_, {rowOrCol_, indexA_, indexB_}] := Module[
     {elements, cofactor},
     {elements, cofactor} =
         Switch[rowOrCol,
