@@ -7,6 +7,14 @@ n = RandomInteger[{minDimension, maxDimension}];
 i = RandomInteger[{1, n - 1}];
 j = RandomInteger[{i + 1, n}];
 a = RandomInteger[{minElement, maxElement}, {n, n}];
+aTriangular = Table[
+    If[i >= j,
+        RandomInteger[{minElement, maxElement}],
+        0
+    ],
+    {i, 1, n},
+    {j, 1, n}
+];
 l = RandomInteger[{minConstant, maxConstant}];
 m = RandomInteger[{minConstant, maxConstant}];
 
@@ -245,6 +253,15 @@ Test[
     ],
     {det[a], det[a]},
     TestID -> "ch_01_54"
+]
+
+Test[
+(* 1.55b: a triangular determinant equals the product of the elements appearing
+    along its principal diagonal.
+*)
+    Times @@ Diagonal[aTriangular],
+    det[aTriangular],
+    TestID -> "ch_01_55_b"
 ]
 
 End[]
