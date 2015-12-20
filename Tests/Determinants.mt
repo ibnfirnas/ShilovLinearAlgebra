@@ -255,6 +255,8 @@ Test[
     TestID -> "ch_01_54"
 ]
 
+(* 1.55a is obviously equivalent to 1.54 *)
+
 Test[
 (* 1.55b: a triangular determinant equals the product of the elements appearing
     along its principal diagonal.
